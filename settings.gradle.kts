@@ -1,5 +1,6 @@
 pluginManagement {
     repositories {
+        google()
         maven { url = uri("https://plugins.gradle.org/m2/") }
         gradlePluginPortal()
         mavenCentral()
@@ -8,9 +9,10 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
+        google()
         mavenCentral()
     }
 }
 
 rootProject.name = "TutorApp"
-include("core-domain", "core-test", "infra-openai")
+include("core-domain", "core-test", "infra-openai", "app")
