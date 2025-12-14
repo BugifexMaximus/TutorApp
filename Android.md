@@ -140,5 +140,6 @@ Artifacts will appear under `app/build/outputs/apk/debug/`.
 - **Emulator lacks hardware acceleration:** Verify your user is in the `kvm` group and that virtualization is enabled in BIOS/UEFI.
 - **Build fails on JDK version:** Confirm `java -version` shows 21 for CLI builds; Android Studio can stay on the bundled JDK 17.
 - **Command not found (`sdkmanager`/`avdmanager`):** Confirm you installed `cmdline-tools` and re-exported the `PATH`.
+- **Gradle fails with "Compose Compiler Gradle plugin is required":** Kotlin 2.x requires the Compose compiler plugin; ensure `org.jetbrains.kotlin.plugin.compose` is applied in `app/build.gradle.kts` and declared in the root `build.gradle.kts` plugins block.
 
 With these steps completed, you can build, run, and debug the Android client on Ubuntu without additional dependencies.
