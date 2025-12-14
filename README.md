@@ -1,6 +1,6 @@
 # Personal Voice Tutor (Kotlin)
 
-This repository contains the JVM-only core for a personal voice tutor app with modular adapters for cloud providers. The code is organized to keep the core domain portable and testable while allowing swappable implementations for LLM, ASR, and TTS providers.
+This repository contains a modular personal voice tutor app with JVM libraries and an Android client. The code is organized to keep the core domain portable and testable while allowing swappable implementations for LLM, ASR, and TTS providers.
 
 ## Project layout
 
@@ -11,15 +11,43 @@ This repository contains the JVM-only core for a personal voice tutor app with m
 - `core-test`: Unit tests that exercise the core services with fakes and in-memory repositories.
 - `infra-openai`: A placeholder OpenAI adapter that satisfies the `LlmClient` port and illustrates how provider-specific modules can plug into the core.
 
-## Running tests
+## Prerequisites and setup
+
+- **Java:** Install JDK 21 for the JVM modules. The Android app uses AGP 8.5 and targets Java 17 bytecode, so Android Studio's
+  embedded JDK 17 is sufficient for that module.
+- **Gradle:** Use a local Gradle 8.7+ installation (no wrapper is checked in). Verify your `gradle` binary is on the `PATH`.
+- **Android SDK (optional):** Required only if you want to build the `app` module. Install API level 34 and create an emulator
+  with microphone access if you plan to test audio features. Set `ANDROID_HOME`/`ANDROID_SDK_ROOT` so Gradle can find the SDK.
+
+Setup steps:
+
+1. Clone the repository.
+2. Ensure JDK 21 is the active JVM (`java -version`).
+3. Run `gradle --version` to verify the Gradle install.
+4. (Optional) Open the project in Android Studio to provision SDKs and virtual devices.
+
+## Building and running tests
 
 From the repository root run:
 
 ```bash
-./gradlew test
+gradle test
 ```
 
-Gradle will execute the JUnit 5 test suite across all modules.
+Gradle will execute the JUnit 5 test suite across all modules. You can also build individual modules:
+
+- JVM core: `gradle :core-domain:build`
+- Tests only: `gradle :core-test:test`
+- Android client: `gradle :app:assembleDebug`
+
+## Using the modules
+
+- **Core domain:** Import `core-domain` into your JVM or Android client to access the tutor models, ports, and services. The
+  `LanguageCatalog` contains the starter language presets and can be extended with your own locales.
+- **OpenAI adapter:** `infra-openai` offers a lightweight `OpenAiLlmClient` that satisfies the `LlmClient` port. It simulates
+  responses locally so you can exercise orchestration logic without network calls.
+- **Android app:** The `app` module is a Compose-based shell that depends on `core-domain`. Use Android Studio to run it on a
+  device or emulator; attach your preferred LLM/ASR/TTS adapters through the ports exposed by the core.
 
 ## Supported target languages
 
