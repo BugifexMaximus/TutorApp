@@ -141,5 +141,6 @@ Artifacts will appear under `app/build/outputs/apk/debug/`.
 - **Build fails on JDK version:** Confirm `java -version` shows 21 for CLI builds; Android Studio can stay on the bundled JDK 17.
 - **Command not found (`sdkmanager`/`avdmanager`):** Confirm you installed `cmdline-tools` and re-exported the `PATH`.
 - **Gradle fails with "Compose Compiler Gradle plugin is required":** Kotlin 2.x requires the Compose compiler plugin; ensure `org.jetbrains.kotlin.plugin.compose` is applied in `app/build.gradle.kts` and declared in the root `build.gradle.kts` plugins block.
+- **Gradle cannot resolve AndroidX/Compose artifacts:** Ensure the `google()` repository is present in the root `subprojects { repositories { ... } }` block (in addition to the `dependencyResolutionManagement` section) so module-level dependency resolution finds AndroidX components.
 
 With these steps completed, you can build, run, and debug the Android client on Ubuntu without additional dependencies.
